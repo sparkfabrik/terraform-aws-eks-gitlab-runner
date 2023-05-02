@@ -10,7 +10,7 @@ output "current_aws_caller_identity" {
 
 output "cluster_oidc_issuer_url" {
   description = "The URL on the EKS cluster for the OpenID Connect identity provider"
-  value       = try(data.aws_eks_cluster.current[0].identity[0].oidc[0].issuer, null)
+  value       = try(data.aws_eks_cluster.current.identity[0].oidc[0].issuer, null)
 }
 
 output "cluster_api_url" {
