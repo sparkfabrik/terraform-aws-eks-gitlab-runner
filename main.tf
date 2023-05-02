@@ -9,11 +9,6 @@ locals {
 // The following is needed to retrieve the account ID for the Gitlab Kubernetes service account annotation.
 data "aws_caller_identity" "current" {}
 
-# The following is needed to retrieve the cluster oidc issuer provider url
-data "aws_eks_cluster" "current" {
-  name = var.eks_cluster_name
-}
-
 // -----------------------
 // Create the namespace.
 // -----------------------
