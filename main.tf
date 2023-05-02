@@ -53,13 +53,15 @@ module "iam_assumable_role_with_oidc_for_gitlab_runner" {
   create_role = true
   role_name   = "gitlab-runner-oidc"
 
-  tags = var.aws_tags
-  # tflint-ignore: terraform_deprecated_index
-  provider_url = flatten(concat(data.aws_eks_cluster.current.identity[*].oidc.0.issuer, [""]))[0]
+  tags         = var.aws_tags
+  provider_url = try(data.aws_eks_cluster.this[0].identity[0].oidc[0].issuer, null)
 
-  role_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser",
-  ]
+  role_policy_arns = concat(
+    [
+      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
+    ],
+    var.runner_additional_policy_arns
+  )
 
   number_of_role_policy_arns = 1
 }

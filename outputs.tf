@@ -8,10 +8,9 @@ output "current_aws_caller_identity" {
   value       = data.aws_caller_identity.current
 }
 
-output "cluster_oidc_issuer" {
-  description = "The EKS cluster OIDC issuer."
-  # tflint-ignore: terraform_deprecated_index
-  value = flatten(concat(data.aws_eks_cluster.current.identity[*].oidc.0.issuer, [""]))[0]
+output "cluster_oidc_issuer_url" {
+  description = "The URL on the EKS cluster for the OpenID Connect identity provider"
+  value       = try(data.aws_eks_cluster.this[0].identity[0].oidc[0].issuer, null)
 }
 
 output "cluster_api_url" {
