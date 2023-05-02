@@ -20,6 +20,11 @@ variable "eks_cluster_name" {
   description = "The name of the cluster where we install resources, it's used to retrieve cluster values used in the module."
 }
 
+variable "eks_cluster_oidc_issuer_url" {
+  type        = string
+  description = "The OIDC issuer URL of the cluster."
+}
+
 variable "aws_tags" {
   type        = map(string)
   description = "Optional additional AWS tags"
