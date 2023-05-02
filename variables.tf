@@ -32,6 +32,11 @@ variable "runner_tags" {
   description = "Specify the tags associated with the runner. Comma-separated list of tags."
 }
 
+variable "runner_additional_policy_arns" {
+  type        = list(string)
+  description = "The list of additional policies to be attached to the gitlab runner role."
+  default     = []
+}
 # Additional iam-user for AWS external access.
 #
 # We can use this user to log into AWS Cloud Services with limited scopes from
