@@ -15,11 +15,6 @@ variable "runner_registration_token" {
   description = "The gitlab runner registration token. You can retrieve it is from your Gitlab project or group backend in the CI/CD settings."
 }
 
-variable "eks_cluster_name" {
-  type        = string
-  description = "The name of the cluster where we install resources, it's used to retrieve cluster values used in the module."
-}
-
 variable "eks_cluster_oidc_issuer_url" {
   type        = string
   description = "The OIDC issuer URL of the cluster."
