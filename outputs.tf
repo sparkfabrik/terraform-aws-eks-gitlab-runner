@@ -1,24 +1,3 @@
-output "cluster_information" {
-  description = "The EKS cluster information."
-  value       = data.aws_eks_cluster.current
-}
-
-output "current_aws_caller_identity" {
-  description = "The current AWS caller identity."
-  value       = data.aws_caller_identity.current
-}
-
-output "cluster_api_url" {
-  description = "The EKS cluster API URL."
-  value       = data.aws_eks_cluster.current.endpoint
-}
-
-output "cluster_certificate_authority_data" {
-  sensitive   = true
-  description = "The EKS cluster certificate authority data."
-  value       = trimspace(base64decode(data.aws_eks_cluster.current.certificate_authority[0].data))
-}
-
 output "minio_accesskey" {
   sensitive   = true
   description = "The access key for the Minio bucket."
