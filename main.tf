@@ -54,7 +54,7 @@ module "iam_assumable_role_with_oidc_for_gitlab_runner" {
   role_name   = "gitlab-runner-oidc"
 
   tags         = var.aws_tags
-  provider_url = try(data.aws_eks_cluster.this[0].identity[0].oidc[0].issuer, null)
+  provider_url = try(data.aws_eks_cluster.current[0].identity[0].oidc[0].issuer, null)
 
   role_policy_arns = concat(
     [
