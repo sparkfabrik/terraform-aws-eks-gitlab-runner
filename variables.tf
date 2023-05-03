@@ -37,28 +37,6 @@ variable "runner_additional_policy_arns" {
   description = "The list of additional policies to be attached to the gitlab runner role."
   default     = []
 }
-# Additional iam-user for AWS external access.
-#
-# We can use this user to log into AWS Cloud Services with limited scopes from
-# runners running outside the EKS cluster, for example in a Gitlab CI job we can
-# log into AWS in a runner running in a GCP cluster.
-variable "add_external_runner_user" {
-  type        = bool
-  description = "Set to true to create an iam-user with scoped access to AWS services"
-  default     = false
-}
-
-variable "external_runner_user_name" {
-  type        = string
-  description = "The name of the iam-user to be created."
-  default     = "external-runner-user"
-}
-
-variable "external_runner_user_policies" {
-  type        = list(string)
-  description = "The list of policies to be attached to the iam-user."
-  default     = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"]
-}
 
 variable "minio_bucket_name" {
   type        = string

@@ -101,7 +101,7 @@ resource "helm_release" "gitlab_runner" {
 
   values = [
     templatefile("${path.module}/files/values.gitlab-runner.yml", {
-      minio_server              = "${helm_release.minio.name}-${helm_release.minio.chart}"
+      minio_server              = helm_release.minio.name
       bucket_name               = var.minio_bucket_name
       runner_registration_token = var.runner_registration_token
       cache_secretname          = random_password.minio_secretkey.result
@@ -191,21 +191,4 @@ resource "kubernetes_cluster_role_binding" "gitlab_admin" {
     name      = kubernetes_service_account_v1.gitlab_runner_worker_sa.metadata[0].name
     namespace = var.namespace
   }
-}
-
-### IAM user to be used from Gitlab Runners not running in the EKS cluster.
-resource "aws_iam_user" "external_runner_user" {
-  count = var.add_external_runner_user ? 1 : 0
-  name  = var.external_runner_user_name
-}
-
-resource "aws_iam_access_key" "external_runner_user_key" {
-  count = var.add_external_runner_user ? 1 : 0
-  user  = aws_iam_user.external_runner_user[0].name
-}
-
-resource "aws_iam_user_policy_attachment" "external_runner_user_policies" {
-  for_each   = var.add_external_runner_user ? toset(var.external_runner_user_policies) : []
-  user       = aws_iam_user.external_runner_user[0].name
-  policy_arn = each.value
 }
