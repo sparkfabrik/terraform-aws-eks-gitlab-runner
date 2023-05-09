@@ -55,28 +55,15 @@ module "iam_assumable_role_with_oidc_for_gitlab_runner" {
   number_of_role_policy_arns = 1
 }
 
-// Create the Kubernetes Service Account for gitlab-runner
-resource "kubernetes_secret_v1" "gitlab_runner_worker_secret" {
+resource "kubernetes_service_account_v1" "gitlab_runner_worker_sa" {
   metadata {
     name      = local.kubernetes_service_account_secret_name_runner_worker
     namespace = var.namespace
     # https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html
     # eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<IAM_ROLE_NAME>
     annotations = {
-      "kubernetes.io/service-account.name" = kubernetes_service_account_v1.gitlab_runner_worker_sa.metadata[0].name
-      "eks.amazonaws.com/role-arn"         = module.iam_assumable_role_with_oidc_for_gitlab_runner.iam_role_arn
+      "eks.amazonaws.com/role-arn" = module.iam_assumable_role_with_oidc_for_gitlab_runner.iam_role_arn
     }
-  }
-  type = "kubernetes.io/service-account-token"
-}
-
-resource "kubernetes_service_account_v1" "gitlab_runner_worker_sa" {
-  metadata {
-    name      = local.kubernetes_service_account_secret_name_runner_worker
-    namespace = var.namespace
-  }
-  secret {
-    name = local.kubernetes_service_account_secret_name_runner_worker
   }
 
   depends_on = [
