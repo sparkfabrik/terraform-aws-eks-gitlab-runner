@@ -37,7 +37,7 @@ resource "random_password" "minio_secretkey" {
 // refs: https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
 module "iam_assumable_role_with_oidc_for_gitlab_runner" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "~> 5.17"
+  version = "~> 6.0"
 
   create_role = true
   role_name   = "gitlab-runner-oidc"
